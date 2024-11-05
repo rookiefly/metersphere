@@ -430,8 +430,8 @@ public class BugService {
                      * 第三方平台缺陷
                      * 和当前项目所属平台不一致, 只删除MS缺陷, 不同步删除平台缺陷, 一致时需同步删除平台缺陷
                      */
-                    bugCommonService.clearAssociateResource(bugList.getFirst().getProjectId(), bugIds);
                     bugMapper.deleteByExample(example);
+                    Thread.startVirtualThread(() -> bugCommonService.clearAssociateResource(bugList.getFirst().getProjectId(), bugIds));
                     if (StringUtils.equals(platform, currentPlatform)) {
                         platformBugIds.addAll(bugList.stream().map(Bug::getPlatformBugId).toList());
                     }
